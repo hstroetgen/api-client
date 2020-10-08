@@ -33,13 +33,13 @@ class JsonResponseHandler(BaseResponseHandler):
     @staticmethod
     def get_request_data(response: Response):
         if not response._content:
-            logger.warning("Response data is empty")
+            LOG.warning("Response data is empty")
             return None
 
         try:
             response_json = response.json()
         except json.JSONDecodeError:
-            logger.error("Unable to decode response data to json. data=%s", response.text)
+            LOG.error("Unable to decode response data to json. data=%s", response.text)
             return response.content
         return response_json
 
