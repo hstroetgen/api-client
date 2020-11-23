@@ -89,7 +89,7 @@ class RequestStrategy(BaseRequestStrategy):
         Delegates response parsing to the response handler.
         """
         try:
-            response = request_method(
+            self.response = request_method(
                 endpoint,
                 params=self._get_request_params(params),
                 headers=self._get_request_headers(headers),
@@ -102,8 +102,8 @@ class RequestStrategy(BaseRequestStrategy):
             LOG.error("An error occurred when contacting %s", endpoint, exc_info=error)
             raise exceptions.UnexpectedError(f"Error when contacting '{endpoint}'") from error
         else:
-            self._check_response(response)
-        return self._decode_response_data(response)
+            self._check_response(self.response)
+        return self._decode_response_data(self.response)
 
     def _get_request_params(self, params: OptionalDict) -> dict:
         """Return dictionary with any additional authentication query parameters."""
